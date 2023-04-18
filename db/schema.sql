@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS employee;
 
 CREATE TABLE department (
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(30) NOT NULL
+    department_name VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE employee_role (
@@ -17,7 +17,7 @@ CREATE TABLE employee_role (
     title VARCHAR(30),
     salary DECIMAL,
     department_id INTEGER,
-    fk_department FOREIGN KEY (department_id) REFERENCES department(id)
+    FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
 CREATE TABLE employee (
@@ -25,6 +25,7 @@ CREATE TABLE employee (
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
     employee_role_id INTEGER NOT NULL,
-    FOREIGN KEY (employee_role_id) REFERENCES employee_role_id(id),
+    manager_id INTEGER,
+    FOREIGN KEY (employee_role_id) REFERENCES employee_role(id),
     FOREIGN KEY (manager_id) REFERENCES employee(id)
 );
