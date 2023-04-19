@@ -1,16 +1,16 @@
 const db = require("../config/connection");
-// const mysql = require("mysql2");
 
+// correct structure to call inside inquirer prompt
 function getAllDepartments() {
-    db.query(`SELECT * FROM department`);
+    return db.promise().query(`SELECT * FROM department`);
 };
 
 function getAllRoles() {
-    db.query(`SELECT * FROM employee_role`)
+    return db.query(`SELECT * FROM employee_role`)
 };
 
 function getAllEmployees() {
-    db.query(`SELECT * FROM employee`)
+    return db.query(`SELECT * FROM employee`)
 };
 
 module.exports = {
