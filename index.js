@@ -1,33 +1,30 @@
 const db = require("./config/connection");
 const inquirer = require("inquirer");
-// const consoleTable = require("console.table");
-const console = require("console");
 const promptFunctions = require("./utils/prompts")
+require("console.table");
 
 
 async function homePrompt() {
-    let userResponse = null;
-    while (!userResponse) {
-        const answers = await inquirer.prompt({
-            name: "homePrompt",
-            type: "list",
-            message: "Please select an option from the list.",
-            choices: [
-                "View All Departments",
-                "View All Roles",
-                "Add a Department",
-                "Add a Role",
-                "Add an Employee",
-                "Update an Employee Role",
-                "Quit",
-            ],
-        });
-        userResponse = answers.homePrompt;
-    }
+    const answers = await inquirer.prompt({
+        name: "homePrompt",
+        type: "list",
+        message: "Please select an option from the list.",
+        choices: [
+            "View All Departments",
+            "View All Roles",
+            "Add a Department",
+            "Add a Role",
+            "Add an Employee",
+            "Update an Employee Role",
+            "Quit",
+        ],
+    });
+    userResponse = answers.homePrompt;
 
     switch (userResponse) {
         case "View All Departments":
-            promptFunctions.getAllDepartments();
+            const deptRes = await promptFunctions.getAllDepartments();
+            console.table(deptRes[0]);
             homePrompt();
             break;
         case "View All Roles":
@@ -59,7 +56,7 @@ async function homePrompt() {
         default:
             console.log("Invalid selection. Please try again.");
             homePrompt();
-    }
-}
+    };
+};
 
 homePrompt();
