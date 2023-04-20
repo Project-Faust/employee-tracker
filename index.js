@@ -12,6 +12,7 @@ async function homePrompt() {
         choices: [
             "View All Departments",
             "View All Roles",
+            "View All Employees",
             "Add a Department",
             "Add a Role",
             "Add an Employee",
@@ -28,11 +29,13 @@ async function homePrompt() {
             homePrompt();
             break;
         case "View All Roles":
-            promptFunctions.getAllRoles();
+            const empRoleRes = await promptFunctions.getAllRoles();
+            console.table(empRoleRes[0]);
             homePrompt();
             break;
         case "View All Employees":
-            promptFunctions.getAllEmployees();
+            const empRes = await promptFunctions.getAllEmployees();
+            console.table(empRes[0]);
             homePrompt();
             break;
         case "Add a Department":
