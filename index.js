@@ -39,19 +39,19 @@ async function homePrompt() {
             homePrompt();
             break;
         case "Add a Department":
-            promptFunctions.addDepartment();
+            await promptFunctions.addDepartment();
             homePrompt();
             break;
         case "Add a Role":
-            promptFunctions.addRole();
+            await promptFunctions.addRole();
             homePrompt();
             break;
         case "Add an Employee":
-            promptFunctions.addEmployee();
+            await promptFunctions.addEmployee();
             homePrompt();
             break;
         case "Update an Employee Role":
-            promptFunctions.updateEmployeeRole();
+            await promptFunctions.updateEmployeeRole();
             homePrompt();
             break;
         case "Quit":
