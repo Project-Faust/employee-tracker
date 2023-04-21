@@ -1,5 +1,23 @@
-const { default: inquirer } = require("inquirer");
+const inquirer = require("inquirer");
 const db = require("../config/connection");
+
+// populates departments from table department
+async function deptChoices() {
+    const deptQuery = db.promise().query(`SELECT id FROM department`);
+    return deptQuery[0];
+};
+
+// populates roles from table employee_role
+async function roleChoices() {
+    const roleQuery = await db.promise().query(`SELECT id FROM employee_role`);
+    return roleQuery[0];
+};
+
+// populates roles from table employee
+async function empChoices() {
+    const empQuery = await db.promise().query(`SELECT id FROM employee`);
+    return empQuery[0];
+};
 
 // shows all data in department table
 function getAllDepartments() {
@@ -17,7 +35,7 @@ function getAllEmployees() {
 };
 
 // creates new row in department table
-async function addDepartment(newDepartment) {
+async function addDepartment() {
     await inquirer
         .prompt(
             {
@@ -27,21 +45,20 @@ async function addDepartment(newDepartment) {
             }
         )
         .then(async (userInput) => {
-            db.query(`INSERT INTO department ${department_name} VALUES ${userInput.newDepartment}`);
+            await db.promise().query(`INSERT INTO department department_name VALUES ?, ${userInput}`);
         })
+        .then(async () => console.log("Updated!"))
         .catch(console.log);
 };
 
-// finish multi-step thing for empRole
-
 // creates new row and fills columns in employee_role table
-async function addRole(newEmployeeRole) {
+async function addRole() {
     await inquirer
         .prompt(
             {
-                name: "empRoleName",
+                name: "empRoleTitle",
                 type: "input",
-                message: "What is the name of the new employee role?"
+                message: "What is the title of the new employee role?"
             },
             {
                 name: "empRoleSalary",
@@ -52,19 +69,18 @@ async function addRole(newEmployeeRole) {
                 name: "empRoleDept",
                 type: "list",
                 message: "To which department does this role belong?",
-                choices: 
+                choices: await deptChoices()
             }
         )
         .then(async (userInput) => {
-            db.query(`INSERT INTO employee_role ${title} VALUES ${userInput.newEmployeeRole}`);
+            await db.promise().query(`INSERT INTO employee_role (title, salary, department_id) VALUES ?, ${userInput}`);
         })
+        .then(async () => console.log("Updated!"))
         .catch(console.log);
 };
 
-// finish multi-step thing for employee
-
 // creates new row and fills columns in employee table
-async function addEmployee(newEmployee) {
+async function addEmployee() {
     await inquirer
         .prompt(
             {
@@ -80,19 +96,39 @@ async function addEmployee(newEmployee) {
             {
                 name: "newEmpRole",
                 type: "list",
-                message: "What is the role of the new employee?"
-                choices: 
+                message: "What is the role of the new employee?",
+                choices: await roleChoices()
             }
-
         )
         .then(async (userInput) => {
-            db.query(`INSERT INTO employee ${department_name} VALUES ${userInput.newEmployee}`);
+            await db.promise().query(`INSERT INTO employee (first_name, last_name, employee_role_id, manager_id) VALUES ?, ${userInput}`);
         })
+        .then(async () => console.log("Updated!"))
         .catch(console.log);
 };
 
-function updateEmployeeRole() {
-
+// prompts the user to select a user then to select the new role to replace the existing role for the specified employee
+async function updateEmployeeRole() {
+    await inquirer
+        .prompt(
+            {
+                name: "updateEmpRoleCurrent",
+                type: "list",
+                message: "For which employee do you want to update a role?",
+                choices: await empChoices()
+            },
+            {
+                name: "updateEmpRoleNew",
+                type: "list",
+                message: "What is the new role of the selected employee?",
+                choices: await roleChoices()
+            }
+        )
+        .then(async (userInput) => {
+            await db.promise().query(`UPDATE employee SET employee_role_id = ? WHERE id = ?, ${userInput}`);
+        })
+        .then(async () => console.log("Updated!"))
+        .catch(console.log);
 };
 
 module.exports = {
