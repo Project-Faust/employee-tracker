@@ -1,24 +1,6 @@
 const inquirer = require("inquirer");
 const db = require("../config/connection");
 
-// populates departments from table department
-// async function deptChoices() {
-//     const deptQuery = db.promise().query(`SELECT id FROM department`);
-//     return deptQuery[0];
-// };
-
-// populates roles from table employee_role
-// async function roleChoices() {
-//     const roleQuery = await db.promise().query(`SELECT id FROM employee_role`);
-//     return roleQuery[0];
-// };
-
-// populates roles from table employee
-// async function empChoices() {
-//     const empQuery = await db.promise().query(`SELECT id FROM employee`);
-//     return empQuery[0];
-// };
-
 // shows all data in department table
 function getAllDepartments() {
     return db.promise().query(`SELECT * FROM department`);
