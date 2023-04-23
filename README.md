@@ -1,1 +1,7 @@
-# employee-tracker
+# SQL: Employee Tracker
+
+This project utilizes mySQL in conjunction with JavaScript, as well as a few libraries to help mesh the two languages into a user-friendly Command Line Interface (CLI) application.
+A database is created using a mySQL schema and populated with the initial data using a mySQL seed. The command line interaction is built from JavaScript and is mainly created using the Inquirer package in order to allow the user to interact with the CLI and provide input. The CLI prompts that are presented to the user may receive different types of input depending on the type of response as necessary. 
+
+In order to start the program, the user must first navigate to the file path in which the index.js file is located and run index.js in his or her CLI of choice (after creating a .end file and providing the relevant credentials to access the database). If the user simply wants to view an existing table, the only input required is the usage of the arrow keys and enter key to select and execute the mySQL query through JavaScript when a selection is made. Adding a new row to an existing table will require the user to provide both typed input as well as follow-up selections from the prompt, as he or she will be required to provide relevant data for the table such as the name of a new employee or the title of a new role, for example. If one wants to update an employee role from and to existing roles in the database, the user will simply select the employee whose role is to be updated and the new role they will be assigned.
+
